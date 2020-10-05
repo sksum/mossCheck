@@ -6,6 +6,12 @@
     import {CodeJar} from './lib/codejar.js'
 
     export let id;
+    let name;
+    $:{ name = id[6]+'.';
+        if (lang=='cc') name +='cpp';
+        else name += lang;
+        console.log(name)
+    }
     let jar;
     let editor
     export let lang;
@@ -40,7 +46,6 @@
                 if (ev.dataTransfer.items[0].kind === 'file') {
                         var file = ev.dataTransfer.items[0].getAsFile();
                         fileReader.readAsText(file)
-                        download(file)
                 }
             }
         }
@@ -50,11 +55,13 @@
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
     }
-    let download = (file) => {
+    let download = (ev,str) => {
+        let file = new File([str],name)
         let link = document.createElement('a');
-        link.download = 'a.cpp';
+        link.download = name;
         link.href = window.URL.createObjectURL(file);
         link.click();
+        ev.preventDefault();
     }
 
 
@@ -66,6 +73,7 @@
 const hello = "world-{id[6]}";
 /*Drop File Here*/
 </div >
+<button id="download" on:click ={(ev)=>download(ev,jar.toString())}>Download</button>
 
 <style>
     .editor {
