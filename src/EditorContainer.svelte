@@ -1,15 +1,16 @@
 <script>
-	import Editor from './Editor.svelte'
+    import Editor from './Editor.svelte'
+    export let lang = "cc"; 
 </script>
 
 <div id="editors">
     <table>
         <tbody>
             <th>
-                <Editor id="editorA" lang = 'js'/>
+                <Editor id="editorA" {lang} />
             </th>
             <th>
-                <Editor id="editorB" lang = 'c++'/>
+                <Editor id="editorB" {lang} />
             </th>
         </tbody>
     </table>

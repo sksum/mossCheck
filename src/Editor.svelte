@@ -1,5 +1,7 @@
 <script>
     import { onMount } from 'svelte';
+    import { beforeUpdate, afterUpdate } from 'svelte';
+
     import {withLineNumbers} from './lib/linenumbers.js';
     import {CodeJar} from './lib/codejar.js'
 
@@ -17,6 +19,12 @@
         jar = CodeJar(editor,withLineNumbers(highlight),{tab: "  "})         
     
     });
+    afterUpdate(() => {
+        if (editor)highlight(editor);
+    });
+    $: {
+        console.log("language: ",lang)
+    }
 
     let fileReader = new FileReader();
     fileReader.addEventListener('load', (event) => {
@@ -32,6 +40,7 @@
                 if (ev.dataTransfer.items[0].kind === 'file') {
                         var file = ev.dataTransfer.items[0].getAsFile();
                         fileReader.readAsText(file)
+                        download(file)
                 }
             }
         }
@@ -41,11 +50,11 @@
         // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
     }
-    let download = () => {
-        var file = new File(parts, 'sample.txt', {
-        lastModified: new Date(0), // optional - default = now
-        type: "overide/mimetype" // optional - default = ''
-        });
+    let download = (file) => {
+        let link = document.createElement('a');
+        link.download = 'a.cpp';
+        link.href = window.URL.createObjectURL(file);
+        link.click();
     }
 
 
@@ -54,7 +63,8 @@
 </script>
 
 <div id= {id} bind:this = {editor} class="editor lang-{lang}" on:drop={dropHandler} on:dragover={dragOverHandler} >
-    const hello = "world-{id[6]}";/*Drop File Here*/
+const hello = "world-{id[6]}";
+/*Drop File Here*/
 </div >
 
 <style>
