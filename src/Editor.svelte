@@ -1,41 +1,74 @@
 <script>
-    	import { onMount } from 'svelte';
+    import { onMount } from 'svelte';
+    import {withLineNumbers} from './lib/linenumbers.js';
+    import {CodeJar} from './lib/codejar.js'
 
-    import {CodeJar} from 'codejar/codejar.js'
-    const highlight = () => {
-    const code = editor.textContent
-    // Do something with code and set html.
-    editor.innerHTML = code
+    export let id;
+    let jar;
+    let editor
+    export let lang;
+    
+    const highlight = editor => {
+        editor.textContent = editor.textContent
+        hljs.highlightBlock(editor)
+    }
+    onMount(() => {
+        hljs.initHighlightingOnLoad();
+        jar = CodeJar(editor,withLineNumbers(highlight),{tab: "  "})         
+    
+    });
+
+    let fileReader = new FileReader();
+    fileReader.addEventListener('load', (event) => {
+        console.log(event.currentTarget.result)
+        jar.updateCode(event.currentTarget.result)
+    });
+
+    function dropHandler(ev) {
+        console.log('File(s) dropped');
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+            if (ev.dataTransfer.items) {
+                if (ev.dataTransfer.items[0].kind === 'file') {
+                        var file = ev.dataTransfer.items[0].getAsFile();
+                        fileReader.readAsText(file)
+                }
+            }
+        }
+    function dragOverHandler(ev) {
+        console.log('File(s) in drop zone'); 
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+    }
+    let download = () => {
+        var file = new File(parts, 'sample.txt', {
+        lastModified: new Date(0), // optional - default = now
+        type: "overide/mimetype" // optional - default = ''
+        });
     }
 
-    onMount(() => {
-        let jar = CodeJar(document.getElementById('editor'),highlight)
-    });
+
+
+
 </script>
-<div id= 'editor'>
-    const hello = "new one ";
+
+<div id= {id} bind:this = {editor} class="editor lang-{lang}" on:drop={dropHandler} on:dragover={dragOverHandler} >
+    const hello = "world-{id[6]}";/*Drop File Here*/
 </div >
 
 <style>
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-    #editor {
+    .editor {
         border-radius: 6px;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); 
         font-family: 'Source Code Pro', monospace;
         font-size: 14px;
         font-weight: 400;
         height: 340px;
-        width:48%;
+        text-align: left;
         letter-spacing: normal;
         line-height: 20px;
-        padding: 10px;
+        padding: 10px; 
         tab-size: 4;
-        float:left;
     }
 </style>

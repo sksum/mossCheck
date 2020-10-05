@@ -1,6 +1,6 @@
 <script>
 </script>
-
+<div>
 <label for="userID">userID</label>
 <input type="number" id="userID" name="userID" min="0"> 
 <form action="/action_page.php">
@@ -12,8 +12,8 @@
       <option value="py">Python</option>
     </select>
     <input type="submit" value="Save">
-  </form>
-
+</form>
+</div>
 <style>
 
 	label {
@@ -22,10 +22,11 @@
 		font-size: 1em;
 		font-weight: 20;
 	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	div {
+		text-align: center;
+		padding: 1em;
+		max-width: 240px;
+		margin: 0 auto;
 	}
+
 </style>
