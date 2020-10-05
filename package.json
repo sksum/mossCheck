@@ -16,7 +16,6 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "codejar": "^3.2.2",
     "sirv-cli": "^1.0.0"
   }
 }
