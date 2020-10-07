@@ -5,7 +5,6 @@
 
 	let callBack = (evt,lang) => {
 		language = lang;
-		console.log("lang changed",language)
 		evt.preventDefault() 
 	}
 </script>

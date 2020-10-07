@@ -10,7 +10,6 @@
     $:{ name = id[6]+'.';
         if (lang=='cc') name +='cpp';
         else name += lang;
-        console.log(name)
     }
     let jar;
     let editor
@@ -34,13 +33,10 @@
 
     let fileReader = new FileReader();
     fileReader.addEventListener('load', (event) => {
-        console.log(event.currentTarget.result)
         jar.updateCode(event.currentTarget.result)
     });
 
     function dropHandler(ev) {
-        console.log('File(s) dropped');
-        // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
             if (ev.dataTransfer.items) {
                 if (ev.dataTransfer.items[0].kind === 'file') {
@@ -50,9 +46,6 @@
             }
         }
     function dragOverHandler(ev) {
-        console.log('File(s) in drop zone'); 
-
-        // Prevent default behavior (Prevent file from being opened)
         ev.preventDefault();
     }
     let download = (ev,str) => {
