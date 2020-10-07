@@ -9,12 +9,12 @@ app = Flask(__name__)
 # Path for our main Svelte page
 @app.route("/")
 def base():
-    return send_from_directory('./public', 'index.html')
+    return send_from_directory('./client/public', 'index.html')
 
 # Path for all the static files (compiled JS/CSS, etc.)
 @app.route("/<path:path>")
 def home(path):
-    return send_from_directory('./public', path)
+    return send_from_directory('./client/public', path)
 
 @app.route("/hello", methods =["POST","GET"])
 def hello1():
@@ -23,45 +23,45 @@ def hello1():
     print(lang)
     moss = mosspy.Moss(data["userId"], lang)
     if lang == "py":
-        fA = open("submission/a.py", "w")
+        fA = open("client/submission/a.py", "w")
         fA.write(data["fileA"])
         #print(data["fileA"])
         fA.close()
-        fB = open("submission/b.py", "w")
+        fB = open("client/submission/b.py", "w")
         fB.write(data["fileB"])
         fB.close()
-        moss.addFile("submission/a.py")
-        moss.addFile("submission/b.py")
+        moss.addFile("client/submission/a.py")
+        moss.addFile("client/submission/b.py")
     elif lang == "cc":
-        fA = open("submission/a.cpp", "w")
+        fA = open("client/submission/a.cpp", "w")
         fA.write(data["fileA"])
         # print(data["fileA"])
         fA.close()
-        fB = open("submission/b.cpp", "w")
+        fB = open("client/submission/b.cpp", "w")
         fB.write(data["fileB"])
         fB.close()
-        moss.addFile("submission/a.cpp")
-        moss.addFile("submission/b.cpp")
+        moss.addFile("client/submission/a.cpp")
+        moss.addFile("client/submission/b.cpp")
     elif lang == "c":
-        fA = open("submission/a.c", "w")
+        fA = open("client/submission/a.c", "w")
         fA.write(data["fileA"])
         # print(data["fileA"])
         fA.close()
-        fB = open("submission/b.c", "w")
+        fB = open("client/submission/b.c", "w")
         fB.write(data["fileB"])
         fB.close()
-        moss.addFile("submission/a.c")
-        moss.addFile("submission/b.c")
+        moss.addFile("client/submission/a.c")
+        moss.addFile("client/submission/b.c")
     elif lang == "js":
-        fA = open("submission/a.js", "w")
+        fA = open("client/submission/a.js", "w")
         fA.write(data["fileA"])
         # print(data["fileA"])
         fA.close()
-        fB = open("submission/b.js", "w")
+        fB = open("client/submission/b.js", "w")
         fB.write(data["fileB"])
         fB.close()
-        moss.addFile("submission/a.js")
-        moss.addFile("submission/b.js")
+        moss.addFile("client/submission/a.js")
+        moss.addFile("client/submission/b.js")
 
 
     url = moss.send()
@@ -71,4 +71,5 @@ def hello1():
     return res
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 33507))
+    app.run(host='0.0.0.0', port=port)
