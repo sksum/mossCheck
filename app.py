@@ -21,99 +21,28 @@ def hello1():
     data = json.loads(request.data)
     lang = data["lang"]
     print(lang)
+    extensions = {
+        "py": "py",
+        "cc": "cpp",
+        "c": "c",
+        "js": "js",
+        "java": "java",
+        "haskell":"haskell",
+        "fortran": "fortran",
+        "csharp": "c#",
+        "vb" : "vb"
+    }
     moss = mosspy.Moss(data["userId"], lang)
-    if lang == "py":
-        fA = open("client/submission/a.py", "w")
-        fA.write(data["fileA"])
-        #print(data["fileA"])
-        fA.close()
-        fB = open("client/submission/b.py", "w")
-        fB.write(data["fileB"])
-        fB.close()
-        moss.addFile("client/submission/a.py")
-        moss.addFile("client/submission/b.py")
-    elif lang == "cc":
-        fA = open("client/submission/a.cpp", "w")
-        fA.write(data["fileA"])
-        # print(data["fileA"])
-        fA.close()
-        fB = open("client/submission/b.cpp", "w")
-        fB.write(data["fileB"])
-        fB.close()
-        moss.addFile("client/submission/a.cpp")
-        moss.addFile("client/submission/b.cpp")
-    elif lang == "c":
-        fA = open("client/submission/a.c", "w")
-        fA.write(data["fileA"])
-        # print(data["fileA"])
-        fA.close()
-        fB = open("client/submission/b.c", "w")
-        fB.write(data["fileB"])
-        fB.close()
-        moss.addFile("client/submission/a.c")
-        moss.addFile("client/submission/b.c")
-    elif lang == "js":
-        fA = open("client/submission/a.js", "w")
-        fA.write(data["fileA"])
-        # print(data["fileA"])
-        fA.close()
-        fB = open("client/submission/b.js", "w")
-        fB.write(data["fileB"])
-        fB.close()
-        moss.addFile("client/submission/a.js")
-        moss.addFile("client/submission/b.js")
-    elif lang == "java":
-        fA = open("client/submission/a.java", "w")
-        fA.write(data["fileA"])
-        # print(data["fileA"])
-        fA.close()
-        fB = open("client/submission/b.java", "w")
-        fB.write(data["fileB"])
-        fB.close()
-        moss.addFile("client/submission/a.java")
-        moss.addFile("client/submission/b.java")
-    # elif lang == "haskell":
-    #     fA = open("client/submission/a.haskell", "w")
-    #     fA.write(data["fileA"])
-    #     # print(data["fileA"])
-    #     fA.close()
-    #     fB = open("client/submission/b.haskell", "w")
-    #     fB.write(data["fileB"])
-    #     fB.close()
-    #     moss.addFile("client/submission/a.haskell")
-    #     moss.addFile("client/submission/b.haskell")
-    # elif lang == "fortran":
-    #     fA = open("client/submission/a.fortran", "w")
-    #     fA.write(data["fileA"])
-    #     # print(data["fileA"])
-    #     fA.close()
-    #     fB = open("client/submission/b.fortran", "w")
-    #     fB.write(data["fileB"])
-    #     fB.close()
-    #     moss.addFile("client/submission/a.fortran")
-    #     moss.addFile("client/submission/b.fortran")
-    # elif lang == "c#":
-    #     moss = mosspy.Moss(data["userId"], "csharp")
-    #     fA = open("client/submission/a.c#", "w")
-    #     fA.write(data["fileA"])
-    #     # print(data["fileA"])
-    #     fA.close()
-    #     fB = open("client/submission/b.c#", "w")
-    #     fB.write(data["fileB"])
-    #     fB.close()
-    #     moss.addFile("client/submission/a.c#")
-    #     moss.addFile("client/submission/b.c#")
-    # elif lang == "vb":
-    #     fA = open("client/submission/a.vb", "w")
-    #     fA.write(data["fileA"])
-    #     # print(data["fileA"])
-    #     fA.close()
-    #     fB = open("client/submission/b.vb", "w")
-    #     fB.write(data["fileB"])
-    #     fB.close()
-    #     moss.addFile("client/submission/a.vb")
-    #     moss.addFile("client/submission/b.vb")
-
+    fA_name = "client/submission/a." + extensions[lang]
+    fA = open(fA_name, "w")
+    fA.write(data["fileA"])
+    fA.close()
+    fB_name = "client/submission/b." + extensions[lang]
+    fB = open(fB_name, "w")
+    fB.write(data["fileB"])
+    fB.close()
+    moss.addFile(fA_name)
+    moss.addFile(fB_name)
 
     url = moss.send()
     print(url)
