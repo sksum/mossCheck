@@ -12,11 +12,11 @@
       <option value="c">C</option>
       <option value="js">Javascript</option>
       <option value="py">Python</option>
-	  <option value="java">java</option>
-	  <!-- <option value="haskell">Haskell</option>
-	  <option value="fortran">fortran</option>
-	  <option value="c#">csharp</option>
-	  <option value="vb">Visual basic</option> -->
+	  <option value="java">Java</option>
+	  <option value="haskell">Haskell</option>
+	  <option value="fortran">Fortran</option>
+	  <option value="csharp">C#</option>
+	  <option value="vb">Visual Basic</option>
     </select>
 </form>
 </div>
